@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Tourism - Destination</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Barlow+Condensed:wght@400;700&family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="starfield"></canvas>
+
+    <header class="site-header"></header>
+
+    <main class="planet-container">
+        
+        <div class="planet-image-section">
+            <div id="planet-wrapper" class="planet-wrapper">
+                <img id="planet-img" src="assets/moon.png" alt="Moon">
+            </div>
+        </div>
+
+        <div class="planet-info-section">
+            <div class="planet-selector-nav">
+                <button class="planet-btn active" data-planet="moon">Moon</button>
+                <button class="planet-btn" data-planet="mars">Mars</button>
+                <button class="planet-btn" data-planet="earth">Earth</button>
+                <button class="planet-btn" data-planet="jupiter">Jupiter</button>
+            </div>
+
+            <h1 id="planet-name" class="text-animate-node">Moon</h1>
+            <p id="planet-description" class="text-animate-node">See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.</p>
+            
+            <hr>
+
+            <div class="planet-stats text-animate-node">
+                <div class="stat-box">
+                    <h3>Avg. Distance</h3>
+                    <p id="planet-distance">384,400 KM</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Est. Travel Time</h3>
+                    <p id="planet-travel">3 DAYS</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="planet-modal" class="planet-modal">
+        <button id="modal-close" class="modal-close-btn">&times;</button>
+        <h1 id="modal-title" class="modal-title">Moon</h1>
+        <div class="modal-image-container">
+            <img id="modal-target-img" src="assets/moon.png" alt="Zoomed Planet">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
