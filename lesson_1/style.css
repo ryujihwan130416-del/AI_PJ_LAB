@@ -1,57 +1,159 @@
 /* --- GLOBAL STYLES --- */
+:root {
+    --void: #07060f;
+    --deep-purple: #1a1240;
+    --nebula-pink: #ff6fd8;
+    --nebula-cyan: #6fe3ff;
+    --nebula-violet: #8a5cff;
+    --text-dim: #c2c0d8;
+    --text-bright: #ffffff;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.14);
+}
+
+* { box-sizing: border-box; }
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Barlow', sans-serif;
-    
-    /* Cosmic Purple to Deep Space Navy Gradient */
-    background: linear-gradient(135deg, #161233 0%, #0b0d17 100%);
-    
-    color: #FFFFFF;
+    background: radial-gradient(ellipse 120% 80% at 20% 0%, #251a4d 0%, transparent 55%),
+                radial-gradient(ellipse 100% 70% at 90% 100%, #2a1140 0%, transparent 50%),
+                linear-gradient(150deg, var(--deep-purple) 0%, var(--void) 75%);
+    color: var(--text-bright);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     overflow-x: hidden;
-
+    position: relative;
 }
 
-/* Starfield Canvas Background styling configuration */
+/* Subtle grain overlay for texture */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+}
+
+/* Drifting nebula glow blobs */
+.nebula-glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(110px);
+    z-index: -2;
+    pointer-events: none;
+}
+.nebula-glow.one {
+    width: 600px; height: 600px;
+    top: -200px; left: -150px;
+    background: radial-gradient(circle, rgba(138,92,255,0.35), transparent 70%);
+    animation: drift1 30s ease-in-out infinite;
+}
+.nebula-glow.two {
+    width: 500px; height: 500px;
+    bottom: -180px; right: -120px;
+    background: radial-gradient(circle, rgba(111,227,255,0.22), transparent 70%);
+    animation: drift2 36s ease-in-out infinite;
+}
+@keyframes drift1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(60px, 40px) scale(1.1); }
+}
+@keyframes drift2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, -30px) scale(1.08); }
+}
+
+/* Starfield Canvas */
 #starfield {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1; /* Pushes it completely behind structural DOM text elements */
-    pointer-events: auto; /* Keeps mouse interaction coordinates readable */
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    pointer-events: auto;
 }
 
 .site-header {
-    height: 40px; 
+    height: 40px;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
+    width: 100%;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    padding: 36px 64px 0;
+}
+
+.site-header .brand {
+    font-family: 'Bellefair', serif;
+    font-size: 1.4rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-bright);
+    opacity: 0.85;
+}
+
+.site-header .brand span {
+    background: linear-gradient(90deg, var(--nebula-cyan), var(--nebula-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 /* --- MAIN LAYOUT --- */
 .planet-container {
     display: flex;
-    align-items: center;      
+    align-items: center;
     justify-content: center;
-    gap: 120px; 
-    max-width: 1800px; 
-    margin: 0 auto; 
-    padding: 0 100px;   
+    gap: 120px;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 100px;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
 
 .planet-image-section {
-    flex: 1.4; 
+    flex: 1.4;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+/* Orbit ring decoration behind planet */
+.orbit-ring {
+    position: absolute;
+    width: 760px;
+    height: 760px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+}
+.orbit-ring::before,
+.orbit-ring::after {
+    content: "";
+    position: absolute;
+    width: 680px;
+    height: 680px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.06);
+}
+.orbit-ring::after {
+    width: 850px;
+    height: 850px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.04);
 }
 
 /* --- MAJESTIC SLOWER TRANSITIONS --- */
@@ -62,6 +164,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    will-change: transform;
 }
 
 .text-animate-node {
@@ -75,15 +179,13 @@ body {
     transform: translateY(-150vh) scale(0.7);
     opacity: 0;
 }
-
 .planet-wrapper.enter-bottom {
     transform: translateY(150vh) scale(0.7);
     opacity: 0;
 }
-
 .text-animate-node.leaving {
     opacity: 0;
-    transform: translateY(30px); 
+    transform: translateY(30px);
 }
 
 /* --- MOBILE SWAP TRANSITIONS --- */
@@ -91,24 +193,41 @@ body {
     transform: translateX(-150vw) scale(0.7);
     opacity: 0;
 }
-
 .planet-wrapper.enter-right {
     transform: translateX(150vw) scale(0.7);
     opacity: 0;
 }
 
 /* --- RESPONSIVE PLANET SIZING & HOVER --- */
+.planet-glow {
+    position: absolute;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--planet-glow-color, rgba(138,92,255,0.45)) 0%, transparent 68%);
+    filter: blur(10px);
+    z-index: -1;
+    animation: pulseGlow 5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.06); }
+}
+
 .planet-wrapper img {
     width: 600px !important;
     height: 600px !important;
-    object-fit: contain; 
+    object-fit: contain;
     cursor: pointer;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
     animation: spinSlow 140s linear infinite;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.55));
 }
 
 .planet-wrapper img:hover {
-    transform: scale(1.25);
+    transform: scale(1.12);
+    filter: drop-shadow(0 40px 80px rgba(0,0,0,0.6)) brightness(1.06);
 }
 
 /* --- INFO TEXT SECTION --- */
@@ -118,9 +237,19 @@ body {
     flex-direction: column;
 }
 
+.eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    color: var(--nebula-cyan);
+    margin: 0 0 18px 0;
+    opacity: 0.85;
+}
+
 .planet-selector-nav {
     display: flex;
-    gap: 40px; 
+    gap: 40px;
     margin-bottom: 40px;
 }
 
@@ -129,38 +258,46 @@ body {
     border: none;
     color: #D2D3D4;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
     letter-spacing: 3px;
     text-transform: uppercase;
     padding: 10px 0;
     cursor: pointer;
     border-bottom: 3px solid transparent;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
+    position: relative;
 }
 
 .planet-btn:hover {
-    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--text-bright);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 .planet-btn.active {
     color: #FFFFFF;
-    border-color: #FFFFFF;
+    border-image: linear-gradient(90deg, var(--nebula-cyan), var(--nebula-pink)) 1;
 }
 
 #planet-name {
     font-family: 'Bellefair', serif;
-    font-size: 7.5rem; 
+    font-size: 7.5rem;
     font-weight: 400;
     text-transform: uppercase;
     margin: 0 0 20px 0;
+    line-height: 1;
+    background: linear-gradient(180deg, #ffffff 0%, #c9c4ec 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 60px rgba(138, 92, 255, 0.25);
 }
 
 #planet-description {
-    font-size: 1.25rem; 
-    line-height: 2.2rem; 
-    color: #D2D3D4;
-    margin: 0 0 60px 0;
-    max-width: 520px; 
+    font-size: 1.25rem;
+    line-height: 2.2rem;
+    color: var(--text-dim);
+    margin: 0 0 50px 0;
+    max-width: 520px;
 }
 
 hr {
@@ -172,14 +309,29 @@ hr {
 
 .planet-stats {
     display: flex;
-    gap: 100px; 
+    gap: 24px;
+}
+
+.stat-box {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 22px 28px;
+    backdrop-filter: blur(8px);
+    flex: 1;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.stat-box:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
 }
 
 .stat-box h3 {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem; 
+    font-size: 0.92rem;
     text-transform: uppercase;
-    color: #D2D3D4;
+    color: var(--text-dim);
     letter-spacing: 2.5px;
     margin: 0 0 14px 0;
     font-weight: 400;
@@ -187,20 +339,23 @@ hr {
 
 .stat-box p {
     font-family: 'Bellefair', serif;
-    font-size: 2.25rem; 
+    font-size: 2.1rem;
     text-transform: uppercase;
     margin: 0;
+    background: linear-gradient(90deg, var(--nebula-cyan), var(--nebula-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 /* --- FULL SCREEN SYSTEM (MODAL VISUALS) --- */
 .planet-modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(11, 13, 23, 0.95);
-    backdrop-filter: blur(20px);
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(ellipse at 50% 100%, rgba(138,92,255,0.18), transparent 60%),
+                rgba(7, 6, 15, 0.96);
+    backdrop-filter: blur(24px);
     z-index: 9999;
     display: flex;
     flex-direction: column;
@@ -236,105 +391,120 @@ hr {
 
 .modal-image-container {
     position: absolute;
-    bottom: -50vh; 
+    bottom: -50vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    transform: translateY(50vh); 
+    transform: translateY(50vh);
 }
 
 .planet-modal.modal-open .modal-image-container {
-    transform: translateY(0); 
+    transform: translateY(0);
 }
 
 .modal-image-container img {
-    width: 300%; 
-    max-width: 1200px; 
+    width: 300%;
+    max-width: 1200px;
     height: auto;
-    animation: spinSlow 140s linear infinite; 
+    animation: spinSlow 140s linear infinite;
+    filter: drop-shadow(0 0 120px rgba(138, 92, 255, 0.35));
 }
 
 .modal-close-btn {
     position: absolute;
     top: 40px;
     right: 50px;
-    background: transparent;
-    border: none;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     color: #FFFFFF;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
     font-family: sans-serif;
     font-weight: 300;
-    opacity: 0.6;
-    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0.75;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s, transform 0.3s, background 0.3s;
     z-index: 10000;
 }
 
 .modal-close-btn:hover {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.08) rotate(90deg);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 /* --- RESPONSIVE MOBILE MODIFICATIONS --- */
-
 @media (max-width: 900px) {
-    body {
-        justify-content: flex-start;
-    }
-    
+    body { justify-content: flex-start; }
+
+    .site-header { padding: 24px 24px 0; }
+
     .planet-container {
         flex-direction: column;
         text-align: center;
         gap: 40px;
-        margin-top: 40px;
+        margin-top: 70px;
         padding: 0 30px;
     }
 
     .planet-image-section { min-height: auto; }
-    
-    .planet-wrapper img { 
-        width: 240px !important; 
-        height: 240px !important; 
+
+    .orbit-ring { width: 280px; height: 280px; }
+    .orbit-ring::before { width: 240px; height: 240px; }
+    .orbit-ring::after { width: 320px; height: 320px; }
+
+    .planet-glow { width: 220px; height: 220px; }
+
+    .planet-wrapper img {
+        width: 240px !important;
+        height: 240px !important;
     }
-    
-    .planet-wrapper img:hover { transform: scale(1.15); } 
+
+    .planet-wrapper img:hover { transform: scale(1.1); }
     .planet-selector-nav { justify-content: center; gap: 30px; }
-    
-    #planet-description { 
-        margin: 0 auto 30px auto; 
-        font-size: 1.125rem; 
+    .eyebrow { text-align: center; }
+
+    #planet-description {
+        margin: 0 auto 30px auto;
+        font-size: 1.125rem;
         line-height: 2rem;
     }
-    
-    .planet-stats { flex-direction: column; gap: 30px; }
-    #planet-name { font-size: 4.5rem; }
-    .stat-box p { font-size: 1.75rem; }
 
-    /* --- FIXED FOR MOBILE MODAL LAYER --- */
-    .modal-title { 
-        font-size: 4.5rem; /* Slightly smaller text so it fits phone widths cleanly */
-        margin-top: 12vh; 
+    .planet-stats { flex-direction: column; gap: 16px; }
+    #planet-name { font-size: 4.5rem; }
+    .stat-box p { font-size: 1.6rem; }
+
+    .modal-title {
+        font-size: 4.5rem;
+        margin-top: 12vh;
         position: relative;
-        z-index: 2; /* Keeps text stacked on top */
+        z-index: 2;
     }
-    
-    .modal-close-btn { 
-        top: 20px; 
-        right: 25px; 
-        font-size: 2rem; 
+
+    .modal-close-btn {
+        top: 20px;
+        right: 25px;
+        font-size: 1.4rem;
+        width: 40px;
+        height: 40px;
         z-index: 10;
     }
-    
-    .modal-image-container { 
-        bottom: -22vh; /* Pushes the planet container lower down the phone screen */
-        z-index: 1;    /* Keeps planet stacked in the background */
+
+    .modal-image-container {
+        bottom: -22vh;
+        z-index: 1;
     }
-    
-    .modal-image-container img { 
-        width: 160%;   /* Scaled down from 220% so it doesn't crowd the screen height */
-        height: auto !important; 
+
+    .modal-image-container img {
+        width: 160%;
+        height: auto !important;
     }
 }
 

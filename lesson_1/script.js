@@ -6,7 +6,8 @@ const planetData = {
         distanceNum: 384400,
         distanceSuffix: " KM",
         travelNum: 3,
-        travelSuffix: " DAYS"
+        travelSuffix: " DAYS",
+        glow: "rgba(194, 194, 214, 0.45)"
     },
     mars: {
         name: "Mars",
@@ -15,7 +16,8 @@ const planetData = {
         distanceNum: 225,
         distanceSuffix: " MIL. KM",
         travelNum: 9,
-        travelSuffix: " MONTHS"
+        travelSuffix: " MONTHS",
+        glow: "rgba(255, 111, 85, 0.45)"
     },
     earth: {
         name: "Earth",
@@ -24,7 +26,8 @@ const planetData = {
         distanceNum: 0,
         distanceSuffix: " KM",
         travelNum: 0,
-        travelSuffix: " DAYS"
+        travelSuffix: " DAYS",
+        glow: "rgba(111, 227, 255, 0.45)"
     },
     jupiter: {
         name: "Jupiter",
@@ -33,13 +36,15 @@ const planetData = {
         distanceNum: 628,
         distanceSuffix: " MIL. KM",
         travelNum: 3,
-        travelSuffix: " YEARS"
+        travelSuffix: " YEARS",
+        glow: "rgba(255, 187, 111, 0.45)"
     }
 };
 
 const buttons = document.querySelectorAll('.planet-btn');
 const planetWrapper = document.getElementById('planet-wrapper');
 const planetImg = document.getElementById('planet-img');
+const planetGlow = document.getElementById('planet-glow');
 const planetName = document.getElementById('planet-name');
 const planetDesc = document.getElementById('planet-description');
 const planetDist = document.getElementById('planet-distance');
@@ -53,7 +58,7 @@ const modalTargetImg = document.getElementById('modal-target-img');
 const modalClose = document.getElementById('modal-close');
 
 function animateCounter(element, targetValue, suffix) {
-    const duration = 1000; 
+    const duration = 1000;
     const startTime = performance.now();
 
     function updateNumber(currentTime) {
@@ -70,6 +75,17 @@ function animateCounter(element, targetValue, suffix) {
     requestAnimationFrame(updateNumber);
 }
 
+function setGlow(targetPlanet) {
+    const data = planetData[targetPlanet];
+    if (planetGlow && data.glow) {
+        planetGlow.style.setProperty('--planet-glow-color', data.glow);
+        planetGlow.style.background = `radial-gradient(circle, ${data.glow} 0%, transparent 68%)`;
+    }
+}
+
+// Initialize glow for default planet
+setGlow('moon');
+
 // OPEN MODAL
 planetImg.addEventListener('click', () => {
     modalTargetImg.src = planetImg.src;
@@ -84,7 +100,13 @@ modalClose.addEventListener('click', () => {
 });
 
 planetModal.addEventListener('click', (e) => {
-    if(e.target === planetModal) {
+    if (e.target === planetModal) {
+        planetModal.classList.remove('modal-open');
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
         planetModal.classList.remove('modal-open');
     }
 });
@@ -92,7 +114,7 @@ planetModal.addEventListener('click', (e) => {
 // NAVIGATION CORE
 buttons.forEach(button => {
     button.addEventListener('click', () => {
-        if(button.classList.contains('active')) return;
+        if (button.classList.contains('active')) return;
 
         buttons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
@@ -113,12 +135,13 @@ buttons.forEach(button => {
             planetImg.alt = data.name;
             planetName.innerText = data.name;
             planetDesc.innerText = data.description;
+            setGlow(targetPlanet);
 
             animateCounter(planetDist, data.distanceNum, data.distanceSuffix);
             animateCounter(planetTravel, data.travelNum, data.travelSuffix);
 
             planetWrapper.classList.remove('leave-left', 'leave-up');
-            
+
             if (isMobile) {
                 planetWrapper.classList.add('enter-right');
             } else {
@@ -130,9 +153,27 @@ buttons.forEach(button => {
                 textNodes.forEach(node => node.classList.remove('leaving'));
             }, 50);
 
-        }, 800); 
+        }, 800);
     });
 });
+
+// ==========================================
+// --- GENTLE MOUSE PARALLAX TILT ON PLANET ---
+// ==========================================
+const imageSection = document.querySelector('.planet-image-section');
+if (imageSection && window.matchMedia('(min-width: 901px)').matches) {
+    imageSection.addEventListener('mousemove', (e) => {
+        const rect = imageSection.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+        const rotateY = relX * 14;
+        const rotateX = relY * -14;
+        planetWrapper.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    imageSection.addEventListener('mouseleave', () => {
+        planetWrapper.style.transform = '';
+    });
+}
 
 // ==========================================
 // --- INTERACTIVE SPACE STARFIELD ENGINE ---
@@ -175,16 +216,22 @@ class Star {
         this.density = (Math.random() * 30) + 10; // Physics vector speed weights
         this.driftSpeedX = (Math.random() * 0.12) - 0.06; // Slow directional cosmic drift speeds
         this.driftSpeedY = (Math.random() * 0.12) - 0.06;
+        this.twinklePhase = Math.random() * Math.PI * 2;
+        this.twinkleSpeed = 0.015 + Math.random() * 0.02;
+        this.hue = Math.random() < 0.12 ? (Math.random() < 0.5 ? '180, 220, 255' : '255, 210, 240') : '255, 255, 255';
     }
 
     draw() {
+        const twinkle = (Math.sin(this.twinklePhase) + 1) / 2;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.6})`; // Organic live twinkling effect
+        ctx.fillStyle = `rgba(${this.hue}, ${0.35 + twinkle * 0.65})`;
         ctx.fill();
     }
 
     update() {
+        this.twinklePhase += this.twinkleSpeed;
+
         // Continuous slow spatial drift
         this.baseX += this.driftSpeedX;
         this.baseY += this.driftSpeedY;
@@ -200,7 +247,7 @@ class Star {
             let dx = mouseCoordinate.x - this.x;
             let dy = mouseCoordinate.y - this.y;
             let distance = Math.sqrt(dx * dx + dy * dy);
-            
+
             if (distance < mouseCoordinate.radius) {
                 let forceDirectionX = dx / distance;
                 let forceDirectionY = dy / distance;

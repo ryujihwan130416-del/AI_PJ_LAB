@@ -10,32 +10,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+    <div class="nebula-glow one"></div>
+    <div class="nebula-glow two"></div>
     <canvas id="starfield"></canvas>
-
-    <header class="site-header"></header>
-
+    <header class="site-header">
+        <div class="brand"><span></span></div>
+    </header>
     <main class="planet-container">
-        
+
         <div class="planet-image-section">
+            <div class="orbit-ring"></div>
             <div id="planet-wrapper" class="planet-wrapper">
+                <div id="planet-glow" class="planet-glow"></div>
                 <img id="planet-img" src="assets/moon.png" alt="Moon">
             </div>
         </div>
-
         <div class="planet-info-section">
+            <p class="eyebrow">01 &nbsp;·&nbsp; Pick your destination</p>
             <div class="planet-selector-nav">
                 <button class="planet-btn active" data-planet="moon">Moon</button>
                 <button class="planet-btn" data-planet="mars">Mars</button>
                 <button class="planet-btn" data-planet="earth">Earth</button>
                 <button class="planet-btn" data-planet="jupiter">Jupiter</button>
             </div>
-
             <h1 id="planet-name" class="text-animate-node">Moon</h1>
             <p id="planet-description" class="text-animate-node">See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.</p>
-            
-            <hr>
 
+            <hr>
             <div class="planet-stats text-animate-node">
                 <div class="stat-box">
                     <h3>Avg. Distance</h3>
@@ -47,9 +48,7 @@
                 </div>
             </div>
         </div>
-
     </main>
-
     <div id="planet-modal" class="planet-modal">
         <button id="modal-close" class="modal-close-btn">&times;</button>
         <h1 id="modal-title" class="modal-title">Moon</h1>
@@ -57,7 +56,6 @@
             <img id="modal-target-img" src="assets/moon.png" alt="Zoomed Planet">
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
