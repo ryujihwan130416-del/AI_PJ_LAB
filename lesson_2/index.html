@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jihwan — About Me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-field" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <header class="title-bar">
+    <h1>ABOUT&nbsp;&nbsp;ME</h1>
+    <p class="tagline">Hi, I'm Jihwan — here's a quick look at who I am.</p>
+  </header>
+
+  <main class="page">
+
+    <nav class="pill-nav surface">
+      <button class="nav-link active" data-target="about">About</button>
+      <button class="nav-link" data-target="academics">Academics</button>
+      <button class="nav-link" data-target="hobbies-skills">Hobbies & Skills</button>
+      <button class="nav-link" data-target="contacts">Contacts</button>
+    </nav>
+
+    <section class="content-boxes">
+
+      <!-- Left: profile card -->
+      <div class="box box-left surface">
+        <div class="avatar-frame" id="avatar-frame">
+          <img src="me.png" alt="Photo of Jihwan" id="avatar-img">
+        </div>
+        <h2 class="profile-name">Jihwan</h2>
+        <p class="profile-role" id="profile-role">Grade 7 · ISHCMC</p>
+        <ul class="profile-facts" id="profile-facts">
+          <li><span>Location</span><b>Ho Chi Minh City, VN</b></li>
+          <li><span>Time in VN</span><b>2.5 years</b></li>
+          <li><span>School</span><b>ISHCMC</b></li>
+        </ul>
+      </div>
+
+      <!-- Right: switching content panels -->
+      <div class="box box-right surface">
+
+        <div class="panel active" id="about">
+          <span class="eyebrow">Profile</span>
+          <h3>Who I am</h3>
+          <p>
+            Hey, I'm Jihwan! I'm 13 years old and I've been living in
+            Vietnam for 2.5 years. This page is a quick look at my life —
+            where I go to school, what I do for fun, what I'm good at, and
+            the languages I speak. Take a look around using the tabs above!
+          </p>
+        </div>
+
+        <div class="panel" id="academics">
+          <span class="eyebrow">Study &amp; speak</span>
+          <h3>Academics</h3>
+          <div class="edu-item">
+            <div class="edu-dot"></div>
+            <div>
+              <h4>ISHCMC</h4>
+              <p>International School Ho Chi Minh City — 2.5 years and counting.</p>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-dot"></div>
+            <div>
+              <h4>About the School</h4>
+              <p>Founded in 1993, ISHCMC was the first IB World School in Vietnam. It's located in the Thao Dien area and has a diverse community of students from over 50 nationalities.</p>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-dot"></div>
+            <div>
+              <h4>Curriculum</h4>
+              <p>ISHCMC follows the International Baccalaureate (IB) — I'm in the Middle Years Programme (MYP).</p>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-dot"></div>
+            <div>
+              <h4>Campus</h4>
+              <p>The Secondary Campus has science labs, art studios, a theater, and two 25m swimming pools.</p>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-dot"></div>
+            <div>
+              <h4>Grade Level</h4>
+              <p>Currently in Grade 7.</p>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-dot"></div>
+            <div>
+              <h4>Languages</h4>
+              <p>I speak Korean and English.</p>
+            </div>
+          </div>
+          <div class="tag-grid" style="margin-top:4px;">
+            <span class="tag">🇰🇷 Korean</span>
+            <span class="tag">🇬🇧 English</span>
+          </div>
+        </div>
+
+        <div class="panel" id="hobbies-skills">
+          <span class="eyebrow">Fun &amp; strengths</span>
+          <h3>Hobbies &amp; Skills</h3>
+          <div class="tag-grid">
+            <span class="tag">🎮 Video Games</span>
+            <span class="tag">🏊 Swimming</span>
+          </div>
+          <div class="project-list" style="margin-top:20px;">
+            <div class="project-item">
+              <h4>🎮 Video Games</h4>
+              <p>My favorite way to relax and have fun with friends.</p>
+            </div>
+            <div class="project-item">
+              <h4>🏊 Swimming</h4>
+              <p>Swimming is what I'm best at — it's my strongest skill!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="contacts">
+          <span class="eyebrow">Find me</span>
+          <h3>Contacts</h3>
+          <div class="project-list">
+            <div class="project-item account-item">
+              <h4>✉️ Email</h4>
+              <p>your.email@example.com</p>
+            </div>
+            <div class="project-item account-item">
+              <h4>📸 Instagram</h4>
+              <p>@hwan.zip_ji</p>
+            </div>
+            <div class="project-item account-item">
+              <h4>👤 Facebook</h4>
+              <p>Your Facebook name</p>
+            </div>
+          </div>
+          <p style="margin-top:18px; font-size:12px; color:var(--text-dim);">
+            Tip: keep these accounts private, and use a parent-monitored email if possible.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer-bar">
+    <p>&copy; <span id="year"></span> Jihwan.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
